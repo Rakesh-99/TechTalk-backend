@@ -17,11 +17,17 @@ import cookieParser from 'cookie-parser';
 
 
 // Middleware :
-
-app.use(cors());
+const corsOptions = {
+    origin: 'https://rakeshblog.onrender.com/', // Replace with your frontend domain
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // If you need to send cookies
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/', router)
 app.use(cookieParser)
+
+
 
 // Get the current module's filename and convert it to a path
 const __filename = fileURLToPath(import.meta.url);
