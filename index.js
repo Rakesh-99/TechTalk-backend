@@ -15,7 +15,9 @@ import cookieParser from 'cookie-parser';
 const corsOptions = {
     origin: 'https://rakeshblog.onrender.com/', // Replace with your frontend domain
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, // If you need to send cookies
+    credentials: true, // If you need to send cookies,
+    allowedHeaders: ['Content-Type'],
+    exposedHeaders: ['Content-Type']
 };
 
 app.use(cors(corsOptions));
