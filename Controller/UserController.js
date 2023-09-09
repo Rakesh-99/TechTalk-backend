@@ -258,13 +258,18 @@ export const blog = async (req, res) => {
 
 export const getAllBlogs = async (req, res) => {
     try {
-        const getBlogs = await blogModel.find();
-        res.json(getBlogs);
+        const foundBlogs = await blogModel.find();
 
+        if (foundBlogs.length === 0) {
+            return res.status(404).json({ success: false, message: 'No blogs found.' });
+        }
+
+        res.status(200).json({ success: true, data: foundBlogs });
     } catch (error) {
-        return res.status(500).json({ "res": 'Error occurred while fetching the blogs' });
+        return res.status(500).json({ success: false, message: 'Internal server error.' });
     }
-}
+};
+
 
 
 
