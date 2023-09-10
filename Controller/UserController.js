@@ -259,7 +259,7 @@ export const blog = async (req, res) => {
 export const getAllBlogs = async (req, res) => {
     try {
         const getBlogs = await blogModel.find();
-        res.json(getBlogs);
+        await res.json(getBlogs);
 
     } catch (error) {
         return res.status(500).json({ "res": 'Error occurred while fetching the blogs' });
