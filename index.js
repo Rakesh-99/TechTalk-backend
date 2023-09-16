@@ -3,12 +3,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
-import ConnectDB from './Connection/ConnectDB.js';
 import router from './Router/UserRouter.js';
 import cors from 'cors';
 import path from 'path'
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
 
 
 // Middleware :
@@ -36,9 +36,26 @@ app.use('/uploads', express.static(uploadsFolderPath));
 
 
 
-app.listen(PORT, () => {
-    console.log(`App is listening at http://localhost:${PORT}`);
-});
+
+const DB_URL = process.env.DB_URL;
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect(DB_URL)
+        console.log('DB Connected');
+    } catch (error) {
+        console.log('Error occurred while connecting to DB');
+    }
+};
+
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`App is listening at http://localhost:${PORT}`);
+    })
+}).catch((err) => {
+    console.log('Error occurred while connecting to DB');
+})
 
 
-ConnectDB();
+
+
