@@ -85,7 +85,7 @@ export const addSignupUser = async (req, res) => {
             //  NodeMailer Transporter :
 
             const transporter = nodemailer.createTransport({
-                port: 465,
+                port: 587,
                 host: "smtp.gmail.com",
                 auth: {
                     user: USER,
@@ -94,24 +94,23 @@ export const addSignupUser = async (req, res) => {
                 secure: true,
             });
 
-            await new Promise((resolve, reject) => {
 
-                // verify connection configuration
 
-                transporter.verify(function (error, success) {
-                    if (error) {
-                        console.log(error);
-                        reject(error);
-                    } else {
-                        console.log("OTP has been sent to your Email");
-                        resolve(success);
-                    }
-                });
+            // verify connection configuration
+
+            transporter.verify(function (error, success) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log("OTP has been sent to your Email");
+
+                }
             });
+
 
             // send mail with defined transport object
 
-            const message = await transporter.sendMail({
+            const message = transporter.sendMail({
 
                 from: USER,
                 to: req.body.email,
@@ -121,15 +120,13 @@ export const addSignupUser = async (req, res) => {
 
             // Send Mail :
 
-            await new Promise((resolve, reject) => {
-                transporter.sendMail(message, (err, info) => {
-                    if (err) {
-                        console.error(err);
-                        reject(err);
-                    } else {
-                        resolve(info);
-                    }
-                });
+            transporter.sendMail(message, (err, info) => {
+                if (err) {
+                    console.error(err);
+
+                } else {
+                    console.log('success');
+                }
             });
         }
     } catch (err) {
@@ -147,6 +144,7 @@ export const addSignupUser = async (req, res) => {
 
 
 export const otpVerify = async (req, res) => {
+    
     const { email, emailToken } = req.body
 
     // Validate that both email and emailToken are provided
