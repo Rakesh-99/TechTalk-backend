@@ -1,12 +1,11 @@
+import express from 'express';
 import multer from 'multer';
-
 
 // Define the storage for uploaded files
 const storage = multer.diskStorage({
-
     destination: function (req, file, cb) {
         // Set the destination folder where uploaded files will be stored
-        cb(null, 'uploads/'); // 'uploads/' should be a directory in your project
+        cb(null, 'public/uploads'); // 'uploads/' should be a directory in your project
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -28,5 +27,4 @@ const fileFilter = (req, file, cb) => {
 // Set up multer with the defined storage and file filter
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-// module.export  = upload;
 export default upload;
