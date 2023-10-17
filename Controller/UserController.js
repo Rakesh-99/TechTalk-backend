@@ -230,12 +230,9 @@ export const loginUser = async (req, res) => {
 export const blog = async (req, res) => {
 
     try {
-        const blogData = req.body
+        const blogData = req.body;
 
-        // for (const element of blogData) {
-
-        const addBlog = await new blogModel({
-
+        const addBlog = new blogModel({
             mainHeading: blogData?.mainHeading,
             heading: blogData?.heading,
             description: blogData?.description,
@@ -245,10 +242,11 @@ export const blog = async (req, res) => {
 
         const data = await addBlog.save();
         return res.status(200).json({ 'res': 'Blog has been posted successfully', data });
-
     } catch (error) {
-        return res.status(500).json({ 'res': 'Error occurred while posting blog ', error });
-    };
+        console.error(error); // Log the error for debugging
+        return res.status(500).json({ 'res': 'Error occurred while posting the blog', error: error.message });
+    }
+    
 };
 
 
