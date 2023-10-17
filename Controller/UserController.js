@@ -233,6 +233,7 @@ export const blog = async (req, res) => {
         const blogData = req.body;
 
         const addBlog = new blogModel({
+            
             mainHeading: blogData?.mainHeading,
             heading: blogData?.heading,
             description: blogData?.description,
